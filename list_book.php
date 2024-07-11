@@ -15,9 +15,13 @@
             <tr>
                 <th>ISBN</th>
                 <th>Título</th>
+                <th>Descrição</th>
+                <th>Preço</th>
                 <th>Gênero</th>
                 <th>Ano de Publicação</th>
                 <th>Estado</th>
+                <th>Capa</th>
+                <th>Vendido</th>
             </tr>
             <?php 
                 while ($row = $result->fetch_assoc()): 
@@ -25,9 +29,13 @@
             <tr>
                 <td><?php echo $row['isbn']; ?></td>
                 <td><?php echo $row['titulo']; ?></td>
+                <td><?php echo $row['descricao']; ?></td>
+                <td><?php echo $row['preco']; ?></td>
                 <td><?php echo $row['genero']; ?></td>
                 <td><?php echo $row['ano_publicacao']; ?></td>
                 <td><?php echo $row['estado']; ?></td>
+                <td><?php echo $row['capa']; ?></td>
+                <td><?php echo $row['vendido']; ?></td>
                 <td>
                     <a href="edit_book.php?isbn=<?php echo $row['isbn']; ?>">Editar</a>
                     <a href="delete_book.php?isbn=<?php echo $row['isbn']; ?>"

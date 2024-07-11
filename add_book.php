@@ -5,12 +5,17 @@
 
         $isbn = $_POST['isbn'];
         $titulo = $_POST['titulo'];
+        $descricao = $_POST['descricao'];
+        $preco = $_POST['preco'];
         $genero = $_POST['genero'];
         $ano_publicacao = $_POST['ano_publicacao'];
         $estado = $_POST['estado'];
+        $capa = $_POST['capa'];
+        $vendido = $_POST['vendido'];
         
-        $sql = "INSERT INTO t_livro (isbn, titulo, genero, ano_publicacao, estado)
-         VALUES ('$isbn','$titulo','$genero',$ano_publicacao,$estado)";
+        $sql = "INSERT INTO t_livro 
+        (isbn, titulo, descricao, preco, genero, ano_publicacao, estado, capa, vendido)
+         VALUES ('$isbn','$titulo','$descricao',$preco,'$genero',$ano_publicacao,$estado,'$capa',$vendido)";
 
         if ($conn->query($sql) === TRUE) {
             echo "Livro adicionado com sucesso!";
