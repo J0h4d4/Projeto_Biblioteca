@@ -61,13 +61,13 @@
             <input type="year" name="ano_publicacao" value="<?php echo $livro['ano_publicacao']; ?>"><br>
             
             <label>Estado:</label><br>
-            <input type="number" name="estado" value="<?php echo $livro['estado']; ?>"><br><br>
+            <input type="number" name="estado" value="<?php echo $livro['estado']; ?>"><br>
 
             <label>Capa:</label><br>
             <input type="text" name="capa" value="<?php echo $livro['capa']; ?>" required><br>
 
             <label>Vendido:</label><br>
-            <input type="number" name="vendido" value="<?php echo $livro['vendido']; ?>"><br>
+            <input type="number" name="vendido" value="<?php echo $livro['vendido']; ?>"><br><br>
 
             <input type="submit" value="Atualizar">
 

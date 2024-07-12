@@ -41,11 +41,22 @@
             <label>Título:</label><br>
             <input type="text" name="titulo" maxlength="100" required><br>
 
+            <label>Descrição:</label><br>
+            <input type="text" name="descricao" maxlength="255" required><br>
+
+            <label>Preço:</label><br>
+            <input type="number" name="ano_publicacao" min="0" max="999999" required><br>
+
             <label>Gênero:</label><br>
             <input type="text" name="genero" maxlength="100"><br>
 
             <label>Ano de Publicação:</label><br>
             <input type="number" name="ano_publicacao" min="1" max="9999"><br>
+
+            <input type="hidden" name="estado" value="0"><br>
+
+            <label>Capa:</label><br>
+            <input type="text" name="capa" maxlength="50"><br>
 
             <input type="hidden" name="estado" value="0"><br><br>
 
