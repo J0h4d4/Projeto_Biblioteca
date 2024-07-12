@@ -18,7 +18,7 @@
                 <th>Descrição</th>
                 <th>Preço</th>
                 <th>Gênero</th>
-                <th>Ano de Publicação</th>
+                <th>Data de Publicação</th>
                 <th>Estado</th>
                 <th>Capa</th>
                 <th>Vendido</th>
@@ -32,12 +32,15 @@
                 <td><?php echo $row['descricao']; ?></td>
                 <td><?php echo $row['preco']; ?></td>
                 <td><?php echo $row['genero']; ?></td>
-                <td><?php echo $row['ano_publicacao']; ?></td>
+                <td><?php echo $row['data_publicacao']; ?></td>
                 <td><?php echo $row['estado']; ?></td>
                 <td><?php echo $row['capa']; ?></td>
                 <td><?php echo $row['vendido']; ?></td>
                 <td>
-                    <a href="edit_book.php?isbn=<?php echo $row['isbn']; ?>">Editar</a>
+                    <form action="edit_book.php" method="post">
+                        <input type="hidden" name="isbn" value="<?php echo $row['isbn'];?>"><br>
+                        <button class="icon" type="submit" background-image="img/recuperar.png"></button>
+                    </form>
                     <a href="delete_book.php?isbn=<?php echo $row['isbn']; ?>"
                     onclick="return confirm('Tem certeza que deseja apagar este livro?');">Apagar</a>
                 </td>

@@ -1,37 +1,48 @@
 <?php
-    include 'config.php';
+    include 'includes/liga_bd.php';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        $isbn = $_POST['isbn'];
-        $titulo = $_POST['titulo'];
-        $descricao = $_POST['descricao'];
-        $preco = $_POST['preco'];
-        $genero = $_POST['genero'];
-        $ano_publicacao = $_POST['ano_publicacao'];
-        $estado = $_POST['estado'];
-        $capa = $_POST['capa'];
-        $vendido = $_POST['vendido'];
-
+    //caso não tenha trocado a imagem
+    if(empty($_FILES['capa']['name'][0])) {
         $sql = "UPDATE t_livro SET 
-        titulo='$titulo', descricao='$descricao',preco=$preco, genero='$genero', 
-        ano_publicacao='$ano_publicacao', estado=$estado, capa='$titulo', vendido='$vendido' 
-        WHERE isbn='$isbn'";
+            titulo='$_POST[titulo]', descricao='$_POST[descricao]', preco=$_POST[preco],
+            genero='$_POST[genero]', data_publicacao='$_POST[data_publicacao]',
+            estado=$_POST[estado], vendido='$_POST[vendido]' 
+            WHERE isbn=$_POST[isbn]";
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Livro atualizado com sucesso!";
+        if (mysqli_query($ligacao, $sql)) {
+            echo "<h3>Livro atualizado com sucesso!</h3>";
             header('Location: list_book.php');
         } else {
             echo "Erro: " . $sql . "<br>" . $conn->error;
         }
-    } else {
+    } 
+    //caso tenha trocado a imagem
+    else {
+        include 'includes/valida_capa.php';
+        if ($uploadOk==1) {
+            $sql = "UPDATE t_livro SET 
+            titulo='$_POST[titulo]', descricao='$_POST[descricao]', preco=$_POST[preco],
+            genero='$_POST[genero]', data_publicacao='$_POST[data_publicacao]',
+            estado=$_POST[estado], capa='".$capa."', vendido='$_POST[vendido]' 
+            WHERE isbn=$_POST[isbn]";
 
-        $isbn = $_GET['isbn'];
-        $sql = "SELECT * FROM t_livro WHERE isbn=$isbn";
-        $result = $conn->query($sql);
-        $livro = $result->fetch_assoc();
+            if (mysqli_query($ligacao, $sql)) {
+                echo "<h3>Livro atualizado com sucesso!</h3>";
+                header('Location: list_book.php');
+
+                // primeiro envia a nova imagem
+                move_uploaded_file($_FILES['capa']['tmp_name'], $target_file);
+
+                // apago a imagem anterior
+                unlink('pics/'.$_POST['capa']);
+            } else {
+                echo "Erro: " . $sql . "<br>" . $conn->error;
+            }
+        }
     }
-    $conn->close(); 
+
+    mysqli_close($ligacao);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,34 +51,53 @@
     </head>
     <body>
         <h1>Editar Livro</h1>
-        <form method="POST" action="">
+
+        <?php
+
+            include 'includes/liga_bd.php';
+            
+            //crio a instrução sql para selecionar todos os registos
+            
+            $sql ="SELECT * FROM user WHERE id=$_POST[id_user]";
+            
+            // a variavel resultado vai guardar todos os dados de todos os manuais
+            // o primeiro parametro é a base dados e o segundo a instrução sql
+            
+            $result =mysqli_query($connection, $sql) or die(mysqli_error($connection)); 
+            
+            $book = mysqli_fetch_assoc($result);
+        
+        ?>
+
+        <form action="edit_book.php" method="post" enctype="multipart/form-data">
 
             <label>ISBN:</label><br>
-            <input type="text" name="isbn" value="<?php echo $livro['isbn']; ?>" readonly><br>
+            <input type="text" name="isbn" value="<?php echo $book['isbn']; ?>" readonly><br>
 
             <label>Título:</label><br>
-            <input type="text" name="titulo" value="<?php echo $livro['titulo']; ?>" required><br>
+            <input type="text" name="titulo" value="<?php echo $book['titulo']; ?>" required><br>
 
             <label>Descrição:</label><br>
-            <input type="text" name="descricao" value="<?php echo $livro['descricao']; ?>" required><br>
+            <input type="text" name="descricao" value="<?php echo $book['descricao']; ?>" required><br>
 
             <label>Preço:</label><br>
-            <input type="number" name="preco" value="<?php echo $livro['preco']; ?>" required><br>
+            <input type="number" name="preco" value="<?php echo $book['preco']; ?>" required><br>
 
             <label>Gênero:</label><br>
-            <input type="text" name="genero" value="<?php echo $livro['genero']; ?>"><br>
+            <input type="text" name="genero" value="<?php echo $book['genero']; ?>"><br>
 
-            <label>Ano de Publicação:</label><br>
-            <input type="year" name="ano_publicacao" value="<?php echo $livro['ano_publicacao']; ?>"><br>
+            <label>Data de Publicação:</label><br>
+            <input type="date" name="data_publicacao" value="<?php echo $book['data_publicacao']; ?>"><br>
             
             <label>Estado:</label><br>
-            <input type="number" name="estado" value="<?php echo $livro['estado']; ?>"><br>
+            <input type="number" name="estado" value="<?php echo $book['estado']; ?>"><br>
 
             <label>Capa:</label><br>
-            <input type="text" name="capa" value="<?php echo $livro['capa']; ?>" required><br>
+            <<img class="capa" src="pics/<?php echo $linha['capa'];?>">
+            <input type="hidden" name="capa" value="<?php echo $book['capa'];?>"><br>
 
             <label>Vendido:</label><br>
-            <input type="number" name="vendido" value="<?php echo $livro['vendido']; ?>"><br><br>
+            <input type="number" name="vendido" value="<?php echo $book['vendido']; ?>"><br><br>
 
             <input type="submit" value="Atualizar">
 
