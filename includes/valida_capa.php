@@ -1,6 +1,6 @@
 <?php
         //código upload foto
-        $foto=basename($_FILES["capa"]["name"]);
+        $capa=basename($_FILES["capa"]["name"]);
         $target_dir = "capas/";
         $target_file = $target_dir . basename($_FILES["capa"]["name"]);
         $uploadOk = 1;

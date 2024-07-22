@@ -5,9 +5,9 @@
     $password = "";
     $dbname = "bd_gestao_livro";
 
-    $connection = mysqli_connect($servername, $username, $password, $dbname);
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-    if ($connection->connect_error)
-        die(mysqli_error($connection));
+    if ($conn->connect_error)
+        die(mysqli_error($conn));
 
 ?>

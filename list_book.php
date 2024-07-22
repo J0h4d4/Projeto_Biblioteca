@@ -1,5 +1,5 @@
 <?php
-    include 'config.php';
+    include 'includes/liga_bd.php';
     $sql = "SELECT * FROM t_livro";
     $result = $conn->query($sql);
 ?>
@@ -39,7 +39,7 @@
                 <td>
                     <form action="edit_book.php" method="post">
                         <input type="hidden" name="isbn" value="<?php echo $row['isbn'];?>"><br>
-                        <button class="icon" type="submit" background-image="img/recuperar.png"></button>
+                        <button class="icon" type="submit" background-image="imgs/edit.png"></button>
                     </form>
                     <a href="delete_book.php?isbn=<?php echo $row['isbn']; ?>"
                     onclick="return confirm('Tem certeza que deseja apagar este livro?');">Apagar</a>
