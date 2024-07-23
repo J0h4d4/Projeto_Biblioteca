@@ -1,31 +1,3 @@
-<?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
-        include 'includes/liga_bd.php';
-
-        $isbn = $_POST['isbn'];
-        $titulo = $_POST['titulo'];
-        $descricao = $_POST['descricao'];
-        $preco = $_POST['preco'];
-        $genero = $_POST['genero'];
-        $data_publicacao = $_POST['data_publicacao'];
-        $estado = $_POST['estado'];
-        $capa = $_POST['capa'];
-            
-        $sql = "INSERT INTO t_livro 
-        (isbn, titulo, descricao, preco, genero, data_publicacao, estado, capa)
-        VALUES ('$isbn','$titulo','$descricao',$preco,'$genero','$data_publicacao',$estado,'$capa')";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "Livro adicionado com sucesso!";
-            header('Location: list_book.php');
-        } else {
-            echo "Erro: " . $sql . "<br>" . $conn->error;
-        }
-        $conn->close();
-    }
-    
-    
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,6 +5,32 @@
     </head>
     <body>
         <h1>Adicionar Livro</h1>
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
+                include 'includes/liga_bd.php';
+
+                $isbn = $_POST['isbn'];
+                $titulo = $_POST['titulo'];
+                $descricao = $_POST['descricao'];
+                $preco = $_POST['preco'];
+                $genero = $_POST['genero'];
+                $data_publicacao = $_POST['data_publicacao'];
+                $estado = $_POST['estado'];
+                $capa = $_POST['capa'];
+                    
+                $sql = "INSERT INTO t_livro 
+                (isbn, titulo, descricao, preco, genero, data_publicacao, estado, capa)
+                VALUES ('$isbn','$titulo','$descricao',$preco,'$genero','$data_publicacao',$estado,'$capa')";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "Livro adicionado com sucesso!";
+                    header('Location: list_book.php');
+                } else {
+                    echo "Erro: " . $sql . "<br>" . $conn->error;
+                }
+                $conn->close();
+            }
+        ?>
         <form action="add_book.php" method="post">
 
             <label>ISBN:</label><br>

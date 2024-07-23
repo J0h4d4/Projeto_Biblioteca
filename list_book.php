@@ -1,8 +1,3 @@
-<?php
-    include 'includes/liga_bd.php';
-    $sql = "SELECT * FROM t_livro";
-    $result = $conn->query($sql);
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,6 +6,11 @@
     <body>
         <h1>Lista de Livros</h1>
         <a href="add_book.php">Adicionar Livro</a>
+        <?php
+            include 'includes/liga_bd.php';
+            $sql = "SELECT * FROM t_livro";
+            $result = $conn->query($sql);
+        ?>
         <table border="1">
             <tr>
                 <th>ISBN</th>
