@@ -1,5 +1,5 @@
 <?php
-    include 'config.php';
+    include 'includes/liga_bd.php';
 
     $isbn = $_GET['isbn'];
     $sql = "DELETE FROM t_livro WHERE isbn=$isbn";

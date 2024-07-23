@@ -9,7 +9,7 @@
         <?php
             include 'includes/liga_bd.php';
             $sql = "SELECT * FROM t_livro";
-            $result = $conn->query($sql);
+            $result = mysqli_query($conn, $sql) or die(mysqli_error($conn)); 
         ?>
         <table border="1">
             <tr>
@@ -24,7 +24,7 @@
                 <th>Vendido</th>
             </tr>
             <?php 
-                while ($row = $result->fetch_assoc()): 
+                while ($row = mysqli_fetch_assoc($result)): 
             ?>
             <tr>
                 <td><?php echo $row['isbn']; ?></td>
@@ -34,7 +34,7 @@
                 <td><?php echo $row['genero']; ?></td>
                 <td><?php echo $row['data_publicacao']; ?></td>
                 <td><?php echo $row['estado']; ?></td>
-                <td><?php echo $row['capa']; ?></td>
+                <td><img src="capas/<?php echo $row['capa']; ?>" width="100"></td>
                 <td><?php echo $row['vendido']; ?></td>
                 <td>
                     <form action="edit_book.php" method="post">

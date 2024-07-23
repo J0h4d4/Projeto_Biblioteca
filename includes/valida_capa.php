@@ -1,14 +1,14 @@
 <?php
         //código upload foto
-        $capa=basename($_FILES["capa"]["name"]);
+        $capa=basename($_FILES["ficheiro"]["name"]);
         $target_dir = "capas/";
-        $target_file = $target_dir . basename($_FILES["capa"]["name"]);
+        $target_file = $target_dir . basename($_FILES["ficheiro"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
         // verifica se é uma imagem
         if(isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["capa"]["tmp_name"]);
+            $check = getimagesize($_FILES["ficheiro"]["tmp_name"]);
             if($check !== false) {
                 echo "Ficheiro é uma imagem - " . $check["mime"] . ".";
                 $uploadOk = 1;
@@ -24,7 +24,7 @@
         }
 
         // verifica o tamanho da imagem
-        if ($_FILES["capa"]["size"] > 5000000) { //5MB
+        if ($_FILES["ficheiro"]["size"] > 5000000) { //5MB
             echo "O ficheiro é demasiado grande. Máximo 5MB";
             $uploadOk = 0;
         }

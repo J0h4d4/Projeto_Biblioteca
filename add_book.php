@@ -31,7 +31,7 @@
                 $conn->close();
             }
         ?>
-        <form action="add_book.php" method="post">
+        <form action="add_book.php" method="post" enctype="multipart/form-data">
 
             <label>ISBN:</label><br>
             <input type="text" name="isbn" maxlength="13" required><br>
@@ -54,7 +54,7 @@
             <input type="hidden" name="estado" value="0"><br>
 
             <label>Capa:</label><br>
-            <input type="text" name="capa" maxlength="50" required><br><br>
+            <input type="file" name="capa" maxlength="50" required><br><br>
 
             <input type="submit" value="Adicionar">
 
