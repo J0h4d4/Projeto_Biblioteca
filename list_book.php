@@ -37,12 +37,15 @@
                 <td><img src="capas/<?php echo $row['capa']; ?>" width="100"></td>
                 <td><?php echo $row['vendido']; ?></td>
                 <td>
-                    <form action="edit_book.php" method="post">
+                    <form action="edit_book.php" method="get">
                         <input type="hidden" name="isbn" value="<?php echo $row['isbn'];?>"><br>
-                        <button class="icon" type="submit" background-image="imgs/edit.png"></button>
+                        <button type="submit" background-image="imgs/edit.png">
+                            <img src="imgs/edit.png" width="50" title="Edit">
+                        </button>
                     </form>
-                    <a href="delete_book.php?isbn=<?php echo $row['isbn']; ?>"
-                    onclick="return confirm('Tem certeza que deseja apagar este livro?');">Apagar</a>
+                    <button type="submit" background-image="imgs/delete.png">
+                        <img src="imgs/delete.png" width="50" alt="Delete">
+                    </button>
                 </td>
             </tr>
         <?php 

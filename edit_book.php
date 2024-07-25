@@ -2,27 +2,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+                echo "<meta http-equiv='refresh' content='5;url=list_book.php'>";
+        ?>
         <title>Editar Livro</title>
     </head>
     <body>
         <h1>Editar Livro</h1>
 
         <?php
-
             include 'includes/liga_bd.php';
             
-
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+                
                 include 'includes/valida_capa.php';
+
+                $isbn = $_POST['isbn'];
+                $titulo = $_POST['titulo'];
+                $descricao = $_POST['descricao'];
+                $preco = $_POST['preco'];
+                $genero = $_POST['genero'];
+                $data_publicacao = $_POST['data_publicacao'];
+                $estado = $_POST['estado'];
             
-                //caso não tenha trocado a imagem
-                if(empty($_FILES["ficheiro"]["name"][0])) {
+                //caso não tenha trocado a capa
+                if(empty($_FILES["capa"]["name"][0])) {
                     $sql = "UPDATE t_livro SET 
-                        titulo='$_POST[titulo]', descricao='$_POST[descricao]', preco=$_POST[preco],
-                        genero='$_POST[genero]', data_publicacao='$_POST[data_publicacao]',
-                        estado=$_POST[estado], vendido='$_POST[vendido]' 
-                        WHERE isbn='$_POST[isbn]'";
+                        titulo='$titulo', descricao='$descricao', preco=$preco,
+                        genero='$genero', data_publicacao='$data_publicacao',
+                        estado=$estado 
+                        WHERE isbn='$isbn'";
 
                     if (mysqli_query($conn, $sql)) {
                         echo "<h3>Livro atualizado com sucesso!</h3>";
@@ -31,25 +42,24 @@
                         echo "Erro: " . $sql . "<br>" . $conn->error;
                     }
                 } 
-                //caso tenha trocado a imagem
+                //caso tenha trocado a capa
                 else {
-                    include 'includes/valida_capa.php';
                     if ($uploadOk==1) {
                         $sql = "UPDATE t_livro SET 
-                        titulo='$_POST[titulo]', descricao='$_POST[descricao]', preco=$_POST[preco],
-                        genero='$_POST[genero]', data_publicacao='$_POST[data_publicacao]',
-                        estado=$_POST[estado], capa='".$capa."', vendido='$_POST[vendido]' 
-                        WHERE isbn='$_POST[isbn]'";
+                        titulo='$titulo', descricao='$descricao', preco=$preco,
+                        genero='$genero', data_publicacao='$data_publicacao',
+                        estado=$estado, capa='".$capa."' 
+                        WHERE isbn='$isbn'";
 
                         if (mysqli_query($conn, $sql)) {
                             echo "<h3>Livro atualizado com sucesso!</h3>";
                             header('Location: list_book.php');
 
                             // primeiro envia a nova imagem
-                            move_uploaded_file($_FILES['ficheiro']['tmp_name'], $target_file);
+                            move_uploaded_file($_FILES['capa']['tmp_name'], $target_file);
 
                             // apago a imagem anterior
-                            unlink('capas/'.$_POST['ficheiro']);
+                            unlink('capas/'.$_POST['capa']);
                         } else {
                             echo "Erro: " . $sql . "<br>" . $conn->error;
                         }
@@ -58,10 +68,13 @@
 
                 mysqli_close($conn);
 
+                echo "<br/><h4>Aguarde que vai ser redirecionado</h4>";
+                echo "<input type='button' value='Voltar ao menu' onclick='window.open('list_book.php','_self')'>";
+                
             } else {
             
                 //crio a instrução sql para selecionar todos os registos
-                $sql ="SELECT * FROM t_livro WHERE isbn='$_POST[isbn]'";
+                $sql ="SELECT * FROM t_livro WHERE isbn='$_GET[isbn]'";
                 
                 // a variavel resultado vai guardar todos os dados de todos os manuais
                 // o primeiro parametro é a base dados e o segundo a instrução sql
@@ -92,11 +105,11 @@
                 echo    "<input type='number' name='estado' value='".$book['estado']."'><br>";
 
                 echo    "<label>Capa:</label><br>";
-                echo    "<img class='capa' src='capas/".$book['capa']."'>";
+                echo    "<img class='capa' src='capas/".$book['capa']."' width='100'>";
                 echo    "<input type='hidden' name='capa' value='".$book['capa']."'><br>";
 
-                echo    "<label>Vendido:</label><br>";
-                echo    "<input type='number' name='vendido' value='".$book['vendido']."'><br><br>";
+                echo    "Nova Capa:<br>";
+                echo    "<input type='file' name='capa'><br><br>";
 
                 echo    "<input type='submit' value='Atualizar'>";
 
